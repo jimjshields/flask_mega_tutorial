@@ -61,6 +61,5 @@ config.py
 
 # db stuff
 *.db
-db_repository
-db_create.py
+db_*
 tmp
