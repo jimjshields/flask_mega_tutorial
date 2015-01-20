@@ -9,6 +9,19 @@
 	<body>
 		<div>Microblog: <a href="/index">Home</a></div>
 		<hr>
+		
+		<!-- context - set messages equal to all flashed messages from prev page -->
+		<!-- once it's called w/ get_flashed_messages, it's gone -->
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<ul>
+					{% for message in messages %}
+						<li>{{ message }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		{% endwith %}
+
 		<!-- can extend this template by inheriting in other templates -->
 		{% block content %}{% endblock %}
 	</body>

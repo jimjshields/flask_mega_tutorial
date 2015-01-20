@@ -50,11 +50,13 @@ def login():
 	form = LoginForm()
 	
 	# handling validated data
-	if form.validate_on_submt():
+	if form.validate_on_submit():
 		# store message w/ the submitted data
+		# can be accessed only on the next displayed page
 		flash('Login requested for OpenID="%s", remember_me="%s"' %
 			 (form.openid.data, str(form.remember_me.data)))
 		# redirect user to the index url
+		# redirect - take user to page other than the one requested
 		return redirect('/index')
 
 	# if it doesn't validate (and on the first time), 
