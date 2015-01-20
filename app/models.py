@@ -1,7 +1,7 @@
 # from the app module, import the db object (a sqlalchemy object)
 from app import db
 
-# each class represents a table - instantiate a table here
+# each class represents a table - define a table here
 class User(db.Model):
 	# each attribute is a field
 	# can specify sql constraints/etc.
