@@ -48,6 +48,16 @@ def index():
 def login():
 	# assign an instance of LoginForm to form
 	form = LoginForm()
+	
+	# handling validated data
+	if form.validate_on_submt():
+		# store message w/ the submitted data
+		flash('Login requested for OpenID="%s", remember_me="%s"' %
+			 (form.openid.data, str(form.remember_me.data)))
+		# redirect user to the index url
+		return redirect('/index')
+
+	# if it doesn't validate (and on the first time), 
 	# render login.html with the above form
 	return render_template('login.html',
 							title='Sign In',
