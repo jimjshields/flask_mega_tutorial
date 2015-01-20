@@ -26,5 +26,7 @@ from config import basedir
 lm = LoginManager()
 # initialize the app w/ that object
 lm.init_app(app)
+# let flask-login know what view logs users in
+m.login_view = 'login'
 # initialize openid object - requires a path to a temp folder where files can be stored
 oid = OpenId(app, os.path.join(basedir, 'tmp'))
