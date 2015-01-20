@@ -1,8 +1,16 @@
 # render_template allows you to create dynamic html templates by passing 
 # python data to the template and calling that data in the template
-from flask import render_template
+
+# flash allows you to give user feedback - not using yet
+
+# redirect allows redirecting a particular page - not using yet
+from flask import render_template, flash, redirect
+
 # import the app variable - aka the Flask object - from the app module
 from app import app
+
+# import the LoginForm class from the forms module
+from .forms import LoginForm
 
 # url routing decorator - decorates the function below it 
 # by assigning it a route (here, '/')
@@ -33,3 +41,14 @@ def index():
 							title='Home', 
 							user=user,
 							posts=posts)
+
+# methods need to be specified if using more than GET
+# POST allows user to send data through a form
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+	# assign an instance of LoginForm to form
+	form = LoginForm()
+	# render login.html with the above form
+	return render_template('login.html',
+							title='Sign In',
+							form=form)
