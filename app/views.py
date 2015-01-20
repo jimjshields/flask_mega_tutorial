@@ -26,11 +26,13 @@ from models import User
 # add another possible route - '/index' - 
 # that will point to the same function
 @app.route('/index')
+# flask-login decorator - tells it where a login is required
+@login_required
 # the routing function - when you go to the above urls,
 # the below function returns what will be rendered as html
 def index():
-	# dictionary variable that can be passed to the template
-	user = {'nickname': 'Miguel'} # fake user
+	# the global user - set w/ the before_request method
+	user = g.user
 	posts = [ # fake array of posts
 		{
 			'author': {'nickname': 'John'},
