@@ -82,7 +82,7 @@ def login():
 							form=form,
 							providers=app.config['OPENID_PROVIDERS'])
 
-@id.after_login
+@oid.after_login
 def after_login(resp):
 	# if there's no email, return to login screen w/ an error
 	if resp.email is None or resp.email == '':

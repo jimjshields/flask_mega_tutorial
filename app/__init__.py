@@ -10,15 +10,11 @@ app.config.from_object('config')
 # initalize database w/ sqlalchemy
 db = SQLAlchemy(app)
 
-# from the app module - app.py - import views (which will be created by us)
-# import models for dbs - this is created by us
-from app import views, models
-
 import os
 # handle the users' logged in state
 from flask.ext.login import LoginManager
 # provide authentication
-from flask.ext.openid import OpenId
+from flask.ext.openid import OpenID
 # base directory of the project
 from config import basedir
 
@@ -27,6 +23,10 @@ lm = LoginManager()
 # initialize the app w/ that object
 lm.init_app(app)
 # let flask-login know what view logs users in
-m.login_view = 'login'
+lm.login_view = 'login'
 # initialize openid object - requires a path to a temp folder where files can be stored
-oid = OpenId(app, os.path.join(basedir, 'tmp'))
+oid = OpenID(app, os.path.join(basedir, 'tmp'))
+
+# from the app module - app.py - import views (which will be created by us)
+# import models for dbs - this is created by us
+from app import views, models
