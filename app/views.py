@@ -82,6 +82,11 @@ def login():
 							form=form,
 							providers=app.config['OPENID_PROVIDERS'])
 
+@app.route('/logout')
+def logout():
+	logout_user()
+	return redirect(url_for('index'))
+
 @oid.after_login
 def after_login(resp):
 	# if there's no email, return to login screen w/ an error
