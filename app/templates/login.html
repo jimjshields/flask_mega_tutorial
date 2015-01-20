@@ -1,0 +1,23 @@
+<!-- extends from base layout -->
+{% extends "base.html" %}
+
+<!-- this template expects a form object assigned to the variable "form" -->
+
+{% block content %}
+	<h1>Sign In</h1>
+	<form action="" method="post" name="login">
+		<!-- gets replaced w/ a hidden field that implements the csrf protection -->
+		<!-- needs to be in all forms where csrf is enabled -->
+		{{ form.hidden_tag() }}
+		<p>
+			Please enter your OpenID:<br>
+			<!-- form fields rendered by the form object -->
+			<!-- some, like this, can take arguments -->
+			{{ form.openid(size=80) }}<br>
+		</p>
+		<p>{{ form.remember_me }} Remember Me</p>
+		<!-- since submit isn't defined in the form class, create it regularly -->
+		<!-- doesn't carry any data so doesn't need to be defined in the form class -->
+		<p><input type="submit" value="Sign In"></p>
+	</form>
+{% endblock %}
