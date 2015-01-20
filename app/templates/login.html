@@ -14,6 +14,11 @@
 			<!-- form fields rendered by the form object -->
 			<!-- some, like this, can take arguments -->
 			{{ form.openid(size=80) }}<br>
+			<!-- any form field w/ validation will have errors -->
+			<!-- accessible under form.[field_name].errors -->
+			{% for error in form.openid.errors %}
+				<span style="color: red;">[{{ error }}]</span>
+			{% endfor %}<br>
 		</p>
 		<p>{{ form.remember_me }} Remember Me</p>
 		<!-- since submit isn't defined in the form class, create it regularly -->
