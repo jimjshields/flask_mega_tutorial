@@ -111,6 +111,14 @@ def after_login(resp):
 	# or index if not
 	return redirect(request.args.get('next') or url_for('index'))
 
+# this decorator will run before the view function each time a request is received
+@app.before_request
+# set the global user var equal to current_user
+# current_user is a variable set by flask-login
+# so, all requests will have access to the logged in user
+def before_request():
+	g.user = current_user
+
 # registered w/ flask-login through this decorator
 @lm.user_loader
 # loads a user from the database
