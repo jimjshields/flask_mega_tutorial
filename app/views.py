@@ -80,6 +80,37 @@ def login():
 							form=form,
 							providers=app.config['OPENID_PROVIDERS'])
 
+@id.after_login
+def after_login(resp):
+	# if there's no email, return to login screen w/ an error
+	if resp.email is None or resp.email == '':
+		flash('Invalid login. Please try again.')
+		return redirect(url_for('login'))
+	# if there is one, find the email in the db
+	user = User.query.filter_by(email=resp.email).first()
+	if user is None:
+		nickname = resp.nickname
+		# if they don't give a nickname, force it from the email
+		if nickname is None or nickname == '':
+			nickname = resp.email.split('@')[0]
+		user = User(nickname=nickname, email=resp.email)
+		
+		# if the user isn't in the db,
+		# add the current user to the db session
+		db.session.add(user)
+		db.session.commit()
+	
+	# default remember_me to False
+	remember_me = False
+	# if it's in the session, set it equal to what it is in the session
+	if 'remember_me' in session:
+		remember_me = session['remember_me']
+		session.pop('remember_me', None)
+	login_user(user, remember = remember_me)
+	# redirect to the 'next' page if provided in request
+	# or index if not
+	return redirect(request.args.get('next') or url_for('index'))
+
 # registered w/ flask-login through this decorator
 @lm.user_loader
 # loads a user from the database
