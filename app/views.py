@@ -15,7 +15,21 @@ from app import app
 def index():
 	# dictionary variable that can be passed to the template
 	user = {'nickname': 'Miguel'} # fake user
+	posts = [ # fake array of posts
+		{
+			'author': {'nickname': 'John'},
+			'body': 'Beautiful day in Portland!'
+		},
+		{
+			'author': {'nickname': 'Susan'},
+			'body': 'The Avengers movie was so cool!'
+		}
+	]
+
 	# render_template will take the page specified and
 	# plug the variable blocks in the template w/ the data passed
 	# to the function
-	return render_template('index.html', title='Home', user=user)
+	return render_template('index.html',
+							title='Home', 
+							user=user,
+							posts=posts)
