@@ -3,8 +3,8 @@ Following along with this: http://blog.miguelgrinberg.com/post/the-flask-mega-tu
 
 1. ~~[Hello, World!](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)~~ 
 2. ~~[Templates](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-ii-templates)~~
-3. [Web Forms](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms)
-4. Database
+3. ~~[Web Forms](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms)~~
+4. [Database](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iv-database)
 5. User Logins
 6. Profile Page & Avatars
 7. Unit Testing

@@ -4,25 +4,47 @@
 <!-- this template expects a form object assigned to the variable "form" -->
 
 {% block content %}
-	<h1>Sign In</h1>
-	<form action="" method="post" name="login">
-		<!-- gets replaced w/ a hidden field that implements the csrf protection -->
-		<!-- needs to be in all forms where csrf is enabled -->
-		{{ form.hidden_tag() }}
-		<p>
-			Please enter your OpenID:<br>
-			<!-- form fields rendered by the form object -->
-			<!-- some, like this, can take arguments -->
-			{{ form.openid(size=80) }}<br>
-			<!-- any form field w/ validation will have errors -->
-			<!-- accessible under form.[field_name].errors -->
-			{% for error in form.openid.errors %}
-				<span style="color: red;">[{{ error }}]</span>
-			{% endfor %}<br>
-		</p>
-		<p>{{ form.remember_me }} Remember Me</p>
-		<!-- since submit isn't defined in the form class, create it regularly -->
-		<!-- doesn't carry any data so doesn't need to be defined in the form class -->
-		<p><input type="submit" value="Sign In"></p>
-	</form>
+
+<script type-"text/javascript">
+	function set_openid(openid, pr) {
+		u = openid.search('<username>')
+		if (u != -1) {
+			// openid requires username
+			user = prompt('Enter your ' + pr + ' username:');
+			openid = openid.substr(0, u) + user;
+		};
+	form = document.forms['login'];
+	form.elements['openid'].value = openid;
+	};
+</script>
+
+<h1>Sign In</h1>
+<form action="" method="post" name="login">
+	<!-- gets replaced w/ a hidden field that implements the csrf protection -->
+	<!-- needs to be in all forms where csrf is enabled -->
+	{{ form.hidden_tag() }}
+	<p>
+		Please enter your OpenID, or select one of the providers below:<br>
+		<!-- form fields rendered by the form object -->
+		<!-- some, like this, can take arguments -->
+		{{ form.openid(size=80) }}<br>
+		<!-- any form field w/ validation will have errors -->
+		<!-- accessible under form.[field_name].errors -->
+		{% for error in form.openid.errors %}
+			<span style="color: red;">[{{ error }}]</span>
+		{% endfor %}<br>
+		<!-- render each of the openid providers with a link -->
+		<!-- link calls the js function -->
+		|{% for pr in providers %}
+			<a href="javascript:set_openid('{{ pr.url }}', '{{ pr.name }}');">
+				{{ pr.name }}
+			</a> |
+		{% endfor %}
+	</p>
+	<p>{{ form.remember_me }} Remember Me</p>
+	<!-- since submit isn't defined in the form class, create it regularly -->
+	<!-- doesn't carry any data so doesn't need to be defined in the form class -->
+	<p><input type="submit" value="Sign In"></p>
+</form>
+
 {% endblock %}
