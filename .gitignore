@@ -55,3 +55,6 @@ target/
 
 # virtual environment
 flask
+
+# configuration
+config.py
