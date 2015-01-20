@@ -16,6 +16,24 @@ class User(db.Model):
 	# in this case, can use post.author to get the user instance of the post
 	posts = db.relationship('Post', backref='author', lazy='dynamic')
 
+	### Flask-Login methods ###
+
+	# misleading name - should return True unless a particular user
+	# shouldn't be authenticated for some reason
+	def is_authenticated(self):
+		return True
+
+	# True unless they are inactive - e.g., they're banned
+	def is_active(self):
+		return True
+
+	# True only for fake users not allowed to log in
+	def is_anonymous(self):
+		return False
+
+	def get_id(self):
+		return unicode(self.id)
+
 	# tell python how to print the objects of this class
 	def __repr__(self):
 		return '<User %r>' % (self.nickname)
