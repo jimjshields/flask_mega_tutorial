@@ -1,5 +1,7 @@
 # from the app module, import the db object (a sqlalchemy object)
 from app import db
+# md5 is a hash function that will hash an email and pass it to gravatar
+from hashlib import md5
 
 # each class represents a table - define a table here
 class User(db.Model):
@@ -33,6 +35,12 @@ class User(db.Model):
 
 	def get_id(self):
 		return unicode(self.id)
+
+	def avatar(self, size):
+		"""Returns the avatar for the hashed e-mail.
+		   If there's no account, return 'mm' (aka mystery man) avatar."""
+		return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % 
+			(md5(self.email.encode('utf-8')).hexdigest(), size)
 
 	# tell python how to print the objects of this class
 	def __repr__(self):
