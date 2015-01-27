@@ -118,7 +118,10 @@ def user(nickname):
 @app.route('/edit', methods=['GET', 'POST'])
 @login_required
 def edit():
-	form = EditForm()
+	"""View for editing a user profile."""
+	
+	# Initialize form with the chosen nickname as an argument.
+	form = EditForm(g.user.nickname)
 	if form.validate_on_submit():
 		g.user.nickname = form.nickname.data
 		g.user.about_me = form.about_me.data
