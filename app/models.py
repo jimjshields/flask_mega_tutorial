@@ -17,6 +17,8 @@ class User(db.Model):
 	# backref - field that is added to objects of 'many' class
 	# in this case, can use post.author to get the user instance of the post
 	posts = db.relationship('Post', backref='author', lazy='dynamic')
+	about_me = db.Column(db.String(140))
+	last_seen = db.Column(db.DateTime)
 
 	### Flask-Login methods ###
 
