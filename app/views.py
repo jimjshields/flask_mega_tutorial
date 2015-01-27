@@ -131,6 +131,22 @@ def edit():
 		form.about_me.data = g.user.about_me
 	return render_template('edit.html', form=form)
 
+### Custom error handlers ###
+
+@app.errorhandler(404)
+def not_found_error(error):
+	"""Custom 404 error handler."""
+	
+	return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+	"""Custom 500 error handler."""
+	
+	# If the db session encounters an error, rendering the 
+	# template may require rolling it back to a working state.
+	db.session.rollback()
+	return render_template('500.html'), 500
 
 ### Utility functions ###
 
