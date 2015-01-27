@@ -6,8 +6,8 @@ Following along with this: http://blog.miguelgrinberg.com/post/the-flask-mega-tu
 3. ~~[Web Forms](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms)~~
 4. ~~[Database](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iv-database)~~
 5. ~~[User Logins](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins)~~
-6. [Profile Page & Avatars](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-vi-profile-page-and-avatars)
-7. Unit Testing
+6. ~~[Profile Page & Avatars](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-vi-profile-page-and-avatars)~~
+7. [Unit Testing](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-vii-unit-testing)
 8. Followers, Contacts, and Friends
 9. Pagination
 10. Full Text Search
