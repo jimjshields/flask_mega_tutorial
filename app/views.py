@@ -20,6 +20,8 @@ from forms import LoginForm
 # User class
 from models import User
 
+### Routing functions ###
+
 # url routing decorator - decorates the function below it 
 # by assigning it a route (here, '/')
 @app.route('/')
@@ -77,6 +79,10 @@ def login():
 
 	# if it doesn't validate (and on the first time), 
 	# render login.html with the above form
+	# html_data = {
+	# 		template
+	# }
+
 	return render_template('login.html',
 							title='Sign In',
 							form=form,
@@ -87,6 +93,26 @@ def logout():
 	logout_user()
 	return redirect(url_for('index'))
 
+# routing decorator with argument 'nickname'
+@app.route('/user/<nickname>')
+@login_required
+def user(nickname):
+	# sqlalchemy query
+	user = User.query.filter_by(nickname=nickname).first()
+	# if user not found, redirect to homepage
+	if user == None:
+		flash('User %s not found.' % nickname)
+		return redirect(url_for('index'))
+	# otherwise get user's posts and render the user template
+	posts = [
+		{'author': user, 'body': 'Test post #1'},
+		{'author': user, 'body': 'Test post #2'}
+	]
+	return render_template('user.html', 
+							user=user,
+							posts=posts)
+
+### Utility functions ###
 @oid.after_login
 def after_login(resp):
 	# if there's no email, return to login screen w/ an error
