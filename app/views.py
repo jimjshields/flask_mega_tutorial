@@ -20,6 +20,9 @@ from forms import LoginForm
 # User class
 from models import User
 
+# for last_seen
+from datetime import datetime
+
 ### Routing functions ###
 
 # url routing decorator - decorates the function below it 
@@ -151,6 +154,12 @@ def after_login(resp):
 # so, all requests will have access to the logged in user
 def before_request():
 	g.user = current_user
+	if g.user.is_authenticated():
+		# set the last seen entry in the db to right now
+		g.user.last_seen = datetime.utcnow()
+		# add this entry and commit it to the db
+		db.session.add(g.user)
+		db.session.commit()
 
 # registered w/ flask-login through this decorator
 @lm.user_loader
