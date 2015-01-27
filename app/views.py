@@ -163,6 +163,8 @@ def after_login(resp):
 		# if they don't give a nickname, force it from the email
 		if nickname is None or nickname == '':
 			nickname = resp.email.split('@')[0]
+		# Make sure it's unique.
+		nickname = User.make_unique_nickname(nickname)
 		user = User(nickname=nickname, email=resp.email)
 		
 		# if the user isn't in the db,
