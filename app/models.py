@@ -48,6 +48,22 @@ class User(db.Model):
 	def __repr__(self):
 		return '<User %r>' % (self.nickname)
 
+# Doesn't apply to an instance of the User class, so make it a static method.
+@staticmethod
+def make_unique_username(nickname):
+	"""Given a nickname, check if it's already been taken.
+	   If it has, find the next available number for that nickname
+	   and return the nickname plus that new number."""
+	if User.query.filter_by(nickname=nickname).first() is None:
+		return nickname
+	version = 2
+	while True:
+		new_nickname = nickname + str(version)
+		if User.query.filter_by(nickname=new_nickname).first() is None:
+			break
+		version += 1
+	return new_nickname
+
 class Post(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	body = db.Column(db.String(140))
