@@ -43,3 +43,8 @@ class EditForm(Form):
 			return False
 		# If it passes everything, it's validated.
 		return True
+
+class PostForm(Form):
+	"""Form for creating posts."""
+	
+	post = StringField('post', validators=[DataRequired()])
