@@ -1,7 +1,14 @@
 # from the app module, import the db object (a sqlalchemy object)
-from app import db
+from app import db, app
 # md5 is a hash function that will hash an email and pass it to gravatar
 from hashlib import md5
+import sys
+
+if sys.version_info >= (3, 0):
+	enable_search = False
+else:
+	enable_search = True
+	import flask.ext.whooshalchemy as whooshalchemy
 
 # Create a followers table.
 # Not a class as it's an association table - the table is only foreign keys.
@@ -138,6 +145,11 @@ class User(db.Model):
 		return new_nickname
 
 class Post(db.Model):
+	"""Represents a post in the db."""
+
+	# Designates which fields will be searchable/indexed.
+	__searchable__ = ['body']
+
 	id = db.Column(db.Integer, primary_key=True)
 	body = db.Column(db.String(140))
 	timestamp = db.Column(db.DateTime)
@@ -145,3 +157,7 @@ class Post(db.Model):
 
 	def __repr__(self):
 		return '<Post %r>' % (self.body)
+
+if enable_search:
+	# Initializes the full-text index.
+	whooshalchemy.whoosh_index(app, Post)
