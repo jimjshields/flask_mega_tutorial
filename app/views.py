@@ -220,6 +220,15 @@ def unfollow(nickname):
 	flash('You\'ve stopped following %s.' % (nickname))
 	return redirect(url_for('user', nickname=nickname))
 
+@app.route('/search', methods=['POST'])
+@login_required
+def search():
+	"""View for search form."""
+	
+	if not g.search_form.validate_on_submit():
+		return redirect(url_for('index'))
+	return redirect(url_for('search_results', query=g.search_form.search.data))
+
 ### Custom error handlers ###
 
 @app.errorhandler(404)
