@@ -48,3 +48,8 @@ class PostForm(Form):
 	"""Form for creating posts."""
 	
 	post = StringField('post', validators=[DataRequired()])
+
+class SearchForm(Form):
+	"""Form for searching posts."""
+
+	search = StringField('search', validators=[DataRequired()])

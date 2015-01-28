@@ -15,7 +15,7 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from app import app, db, lm, oid
 
 # import the LoginForm class from the forms module
-from forms import LoginForm, EditForm, PostForm
+from forms import LoginForm, EditForm, PostForm, SearchForm
 
 # User class
 from models import User, Post
@@ -289,6 +289,7 @@ def before_request():
 		# add this entry and commit it to the db
 		db.session.add(g.user)
 		db.session.commit()
+		g.search_form = SearchForm()
 
 # registered w/ flask-login through this decorator
 @lm.user_loader
