@@ -102,20 +102,20 @@ class User(db.Model):
 
 	def followed_posts(self):
 		"""Input: User object
-		   Output: Posts of followers of the given user"""
+		   Output: Query for posts of followers of the given user"""
 
-		# A query on the Post model/table - returns the posts that match 
-		# the given query (not the temp table created by the join/filter).
-		return Post.query
+		# A query on the Post model/table - returns a query for the posts that 
+		# match the given query (not the temp table created by the join/filter).
+		return Post.query.join(
 			# Join the Post table (left) w/ the followers table (right)
 			# given the condition that the followed_id is the user_id of the Post.
 			# i.e., if a user isn't followed, they won't show up.
-			.join(followers, (followers.c.followed_id == Post.user_id))
+			followers, (followers.c.followed_id == Post.user_id)).filter(
 				# Filter the returned (joined) subtable for only those
 				# users the given user is following.
-			  	.filter(followers.c.follower_id == self.id)
+			 	followers.c.follower_id == self.id).order_by(
 			  		# Order that filtered table by the Post timestamp.
-			  		.order_by(Post.timestamp.desc())
+			  		Post.timestamp.desc())
 
 	# tell python how to print the objects of this class
 	def __repr__(self):
