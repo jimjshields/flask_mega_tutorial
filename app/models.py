@@ -64,6 +64,40 @@ class User(db.Model):
 		return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % \
 			(md5(self.email.encode('utf-8')).hexdigest(), size)
 
+	#### Following methods - add/remove relationships b/w users. ###
+
+	def follow(self, user):
+		"""Input: user object, other user object
+		   Output: If not already following, make the 
+		   given user follow another user by adding an 
+		   entry to the association table."""
+		if not self.is_following(user):
+
+			# SQLAlchemy handles adding this to the assoc table.
+			self.followed.append(user)
+			return self
+
+	def unfollow(self, user):
+		"""Input: user object, other user object
+		   Output: If already following, make the 
+		   given user unfollow another user by removing an 
+		   entry from the association table."""
+		if self.is_following(user):
+
+			# SQLAlchemy handles removing this from the assoc table.
+			self.followed.remove(user)
+			return self
+
+	def is_following(self, user):
+		"""Input: user object, other user object
+		   Output: Boolean; True if the given user 
+		   is following another user."""
+
+		# Because lazy is 'dynamic', filter returns the query object,
+		# not the result of the query. Calling count() executes the 
+		# query and returns the count.
+		return self.followed.filter(followers.c.followed_id == user.id).count() > 0
+
 	# tell python how to print the objects of this class
 	def __repr__(self):
 		return '<User %r>' % (self.nickname)
