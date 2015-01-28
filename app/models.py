@@ -6,8 +6,8 @@ from hashlib import md5
 # Create a followers table.
 # Not a class as it's an association table - the table is only foreign keys.
 followers = db.Table('followers',
-	db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
-	db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
 )
 
 # each class represents a table - define a table here
