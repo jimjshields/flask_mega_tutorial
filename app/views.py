@@ -24,7 +24,7 @@ from models import User, Post
 from datetime import datetime
 
 # for post pagination
-from config import POSTS_PER_PAGE
+from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS
 
 ### Routing functions ###
 
