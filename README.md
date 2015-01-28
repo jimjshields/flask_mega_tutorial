@@ -8,8 +8,8 @@ Following along with this: http://blog.miguelgrinberg.com/post/the-flask-mega-tu
 5. ~~[User Logins](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins)~~
 6. ~~[Profile Page & Avatars](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-vi-profile-page-and-avatars)~~
 7. ~~[Unit Testing](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-vii-unit-testing)~~
-8. [Followers, Contacts, and Friends](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-viii-followers-contacts-and-friends)
-9. Pagination
+8. ~~[Followers, Contacts, and Friends](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-viii-followers-contacts-and-friends)~~
+9. [Pagination](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-ix-pagination)
 10. Full Text Search
 11. Email Support
 12. Facelift
