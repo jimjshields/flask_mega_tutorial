@@ -10,8 +10,8 @@ Following along with this: http://blog.miguelgrinberg.com/post/the-flask-mega-tu
 7. ~~[Unit Testing](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-vii-unit-testing)~~
 8. ~~[Followers, Contacts, and Friends](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-viii-followers-contacts-and-friends)~~
 9. ~~[Pagination](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-ix-pagination)~~
-10. [Full Text Search](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-x-full-text-search)
-11. Email Support
+10. ~~[Full Text Search](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-x-full-text-search)~~
+11. [Email Support](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xi-email-support)
 12. Facelift
 13. Dates and Times
 14. l18n and L10n
