@@ -5,13 +5,17 @@ from hashlib import md5
 
 # each class represents a table - define a table here
 class User(db.Model):
+	
 	# each attribute is a field
 	# can specify sql constraints/etc.
 	id = db.Column(db.Integer, primary_key=True)
+	
 	# can specify other attributes (whether it's indexed, a primary key, etc.)
 	nickname = db.Column(db.String(64), index=True, unique=True)
+	
 	# or maximum length
 	email = db.Column(db.String(120), index=True, unique=True)
+	
 	# foreign key - one to many relationship - defined on the 'one' side
 	# first argument - 'many' class of the relationship
 	# backref - field that is added to objects of 'many' class
@@ -19,6 +23,15 @@ class User(db.Model):
 	posts = db.relationship('Post', backref='author', lazy='dynamic')
 	about_me = db.Column(db.String(140))
 	last_seen = db.Column(db.DateTime)
+
+	# Declare many-to-many relationship b/w followers/followed.
+	followed = db.relationship('User', # right-side entity (left-side entity is the parent class)
+								secondary=followers, # association table used for the relationship
+								primaryjoin=(followers.c.follower_id == id), # condition that links the left-side entity (the follower) w/ the assoc table
+								secondaryjoin=(followers.c.followed_id == id), # condition that links the right-side entity (the followed) w/ the assoc table
+								backref=db.backref('followers', lazy='dynamic'), # how the relationship will be accessed from the right-side entity
+								lazy='dynamic') # lazy - execution mode for the query
+
 
 	### Flask-Login methods ###
 
