@@ -170,6 +170,40 @@ def follow(nickname):
 	flash('You are now following %s!' % (nickname))
 	return redirect(url_for('user', nickname=nickname))
 
+@app.route('/unfollow/<nickname>')
+@login_required
+def unfollow(nickname):
+	"""View for unfollowing the given user."""
+
+	# Get the to-be-unfollowed user (tbuu) from the database.
+	user = User.query.filter_by(nickname=nickname).first()
+	
+	# If tbuu isn't there, redirect user.
+	if user is None:
+		flash('User %s not found.' % (nickname))
+		return redirect(url_for('index'))
+
+	# If user is trying to unfollow themself, redirect user.
+	if user == g.user:
+		flash('You can\'t unfollow yourself!')
+		return redirect(url_for('user', nickname=nickname))
+
+	# Otherwise, try to unfollow the tbuu.
+	u = g.user.unfollow(user)
+
+	# If tbuu can't be unfollowed, redirect user.
+	if u is None:
+		flash('Cannot unfollow %s.' % (nickname))
+		return redirect(url_for('user', nickname=nickname))
+
+	# Otherwise, add unfollow to the database.
+	db.session.add(u)
+	db.session.commit()
+
+	# Let user know.
+	flash('You\'ve stopped following %s.' % (nickname))
+	return redirect(url_for('user', nickname=nickname))
+
 ### Custom error handlers ###
 
 @app.errorhandler(404)
