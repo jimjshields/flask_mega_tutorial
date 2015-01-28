@@ -170,8 +170,6 @@ def follow(nickname):
 	flash('You are now following %s!' % (nickname))
 	return redirect(url_for('user', nickname=nickname))
 
-def follow
-
 ### Custom error handlers ###
 
 @app.errorhandler(404)
