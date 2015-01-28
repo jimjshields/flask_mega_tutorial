@@ -46,5 +46,41 @@ class TestCase(unittest.TestCase):
 		assert nickname2 != 'john'
 		assert nickname2 != nickname
 
+	def test_follow(self):
+		u1 = User(nickname='john', email='john@example.com')
+		u2 = User(nickname='susan', email='susan@example.com')
+		db.session.add(u1)
+		db.session.add(u2)
+		db.session.commit()
+
+		# Check that a user can't unfollow a user they aren't following.
+		assert u1.unfollow(u2) is None
+
+		u = u1.follow(u2)
+		db.session.add(u)
+		db.session.commit()
+
+		# Check that a user can't follow a user they're following.
+		assert u1.follow(u2) is None
+
+		# Check that a user is actually following a user they're following.
+		assert u1.is_following(u2)
+		assert u1.followed.count() == 1
+		assert u1.followed.first().nickname == 'susan'
+		assert u2.followers.count() == 1
+		assert u2.followers.first().nickname == 'john'
+
+		u = u1.unfollow(u2)
+
+		# Check that a user can unfollow a user they're following.
+		assert u is not None
+		db.session.add(u)
+		db.session.commit()
+
+		# Check that unfollowing works as intended.
+		assert not u1.is_following(u2)
+		assert u1.followed.count() == 0
+		assert u2.followers.count() == 0
+
 if __name__ == '__main__':
 	unittest.main()
