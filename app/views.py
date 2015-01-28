@@ -60,7 +60,7 @@ def index(page=1):
 
 	# Gets paginated posts from a user's followers.
 	# Page determined by url, posts per page by the config.
-	posts = g.user.followed_posts().paginate(page, POSTS_PER_PAGE, False).items
+	posts = g.user.followed_posts().paginate(page, POSTS_PER_PAGE, False)
 
 	# render_template will take the page specified and
 	# plug the variable blocks in the template w/ the data passed
