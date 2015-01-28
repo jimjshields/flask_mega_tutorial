@@ -15,10 +15,10 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from app import app, db, lm, oid
 
 # import the LoginForm class from the forms module
-from forms import LoginForm, EditForm
+from forms import LoginForm, EditForm, PostForm
 
 # User class
-from models import User
+from models import User, Post
 
 # for last_seen
 from datetime import datetime
@@ -27,10 +27,10 @@ from datetime import datetime
 
 # url routing decorator - decorates the function below it 
 # by assigning it a route (here, '/')
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 # add another possible route - '/index' - 
 # that will point to the same function
-@app.route('/index')
+@app.route('/index', methods=['GET', 'POST'])
 # flask-login decorator - tells it where a login is required
 @login_required
 # the routing function - when you go to the above urls,
@@ -38,16 +38,23 @@ from datetime import datetime
 def index():
 	# the global user - set w/ the before_request method
 	user = g.user
-	posts = [ # fake array of posts
-		{
-			'author': {'nickname': 'John'},
-			'body': 'Beautiful day in Portland!'
-		},
-		{
-			'author': {'nickname': 'Susan'},
-			'body': 'The Avengers movie was so cool!'
-		}
-	]
+
+	# Assign an instance of PostForm to form.
+	form = PostForm()
+
+	if form.validate_on_submit():
+		post = Post(body=form.post.data, timestamp=datetime.utcnow(), author=g.user)
+		db.session.add(post)
+		db.session.commit()
+		flash('Your post is now live!')
+
+		# Redirect ensures that the last request is not a POST.
+		# So if user refreshes the page, they don't resubmit the form
+		# and have duplicate posts.
+		return redirect(url_for('index'))
+
+	# Gets all posts from a user's followers.
+	posts = g.user.followed_posts().all()
 
 	# render_template will take the page specified and
 	# plug the variable blocks in the template w/ the data passed
@@ -55,7 +62,8 @@ def index():
 	return render_template('index.html',
 							title='Home', 
 							user=user,
-							posts=posts)
+							posts=posts,
+							form=form)
 
 # methods need to be specified if using more than GET
 # POST allows user to send data through a form
