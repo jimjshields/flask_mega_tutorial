@@ -23,6 +23,9 @@ from models import User, Post
 # for last_seen
 from datetime import datetime
 
+# for post pagination
+from config import POSTS_PER_PAGE
+
 ### Routing functions ###
 
 # url routing decorator - decorates the function below it 
@@ -31,11 +34,13 @@ from datetime import datetime
 # add another possible route - '/index' - 
 # that will point to the same function
 @app.route('/index', methods=['GET', 'POST'])
+# for pagination - force arg into an int
+@app.route('/index/<int:page>', methods=['GET', 'POST'])
 # flask-login decorator - tells it where a login is required
 @login_required
 # the routing function - when you go to the above urls,
 # the below function returns what will be rendered as html
-def index():
+def index(page=1):
 	# the global user - set w/ the before_request method
 	user = g.user
 
@@ -53,8 +58,9 @@ def index():
 		# and have duplicate posts.
 		return redirect(url_for('index'))
 
-	# Gets all posts from a user's followers.
-	posts = g.user.followed_posts().all()
+	# Gets paginated posts from a user's followers.
+	# Page determined by url, posts per page by the config.
+	posts = g.user.followed_posts().paginate(page, POSTS_PER_PAGE, False).items
 
 	# render_template will take the page specified and
 	# plug the variable blocks in the template w/ the data passed
