@@ -112,19 +112,21 @@ def logout():
 
 # routing decorator with argument 'nickname'
 @app.route('/user/<nickname>')
+@app.route('/user/<nickname>/<int:page>')
 @login_required
-def user(nickname):
+def user(nickname, page=1):
+	
 	# sqlalchemy query
 	user = User.query.filter_by(nickname=nickname).first()
+	
 	# if user not found, redirect to homepage
 	if user == None:
 		flash('User %s not found.' % nickname)
 		return redirect(url_for('index'))
+	
 	# otherwise get user's posts and render the user template
-	posts = [
-		{'author': user, 'body': 'Test post #1'},
-		{'author': user, 'body': 'Test post #2'}
-	]
+	posts = user.posts.paginate(page, POSTS_PER_PAGE, False)
+
 	return render_template('user.html', 
 							user=user,
 							posts=posts)
