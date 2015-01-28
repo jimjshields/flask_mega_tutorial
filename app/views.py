@@ -174,7 +174,11 @@ def after_login(resp):
 		# add the current user to the db session
 		db.session.add(user)
 		db.session.commit()
-	
+		
+		# Make the user follow themself.
+		db.session.add(user.follow(user))
+		db.session.commit()
+
 	# default remember_me to False
 	remember_me = False
 	# if it's in the session, set it equal to what it is in the session
