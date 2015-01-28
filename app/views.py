@@ -134,6 +134,44 @@ def edit():
 		form.about_me.data = g.user.about_me
 	return render_template('edit.html', form=form)
 
+### Following views ###
+
+@app.route('/follow/<nickname>')
+@login_required
+def follow(nickname):
+	"""View for following the given user."""
+
+	# Get the to-be-followed user (tbfu) from the database.
+	user = User.query.filter_by(nickname=nickname).first()
+
+	# If tbfu isn't there, redirect user.
+	if user is None:
+		flash('User %s not found.' % (nickname))
+		return redirect(url_for('index'))
+
+	# If user is trying to follow themself, redirect user.
+	if user == g.user:
+		flash('You can\'t follow yourself!')
+		return redirect(url_for('user', nickname=nickname))
+
+	# Otherwise, try to follow the tbfu.
+	u = g.user.follow(user)
+
+	# If tbfu can't be followed, redirect user.
+	if u is None:
+		flash('Cannot follow %s.' % (nickname))
+		return redirect(url_for('user', nickname=nickname))
+
+	# Otherwise, add follow to the database.
+	db.session.add(u)
+	db.session.commit()
+
+	# Let user know.
+	flash('You are now following %s!' % (nickname))
+	return redirect(url_for('user', nickname=nickname))
+
+def follow
+
 ### Custom error handlers ###
 
 @app.errorhandler(404)
